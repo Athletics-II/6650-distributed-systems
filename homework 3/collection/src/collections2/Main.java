@@ -10,26 +10,20 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
-class TestMap {
-  private Map<Integer, Integer> testMap;
-  public TestMap(Map<Integer, Integer> map) {
-    this.testMap = map;
-  }
-  public synchronized void add() {
-    for (int i=0; i<100000; i++) {
-      testMap.put(i, i);
-    }
-  }
-}
-
 class Task implements Runnable{
-  private TestMap map;
-  public Task(TestMap map) {
+  private final Map<Integer, Integer> map;
+  private final int startRange;
+
+  Task(Map<Integer, Integer> map, int startRange) {
     this.map = map;
+    this.startRange = startRange;
   }
+
   @Override
   public void run() {
-    map.add();
+    for (int i = startRange; i < startRange + 10000; i++) {
+      map.put(i, i);
+    }
   }
 }
 
@@ -47,7 +41,7 @@ public class Main {
 
   public static void singleThread(Map<Integer, Integer> map) {
     Instant startTime = Instant.now();
-    for (int i=0; i<100000; i++) {
+    for (int i=0; i<1000000; i++) {
       map.put(i, i);
     }
     Instant endTime = Instant.now();
@@ -56,13 +50,14 @@ public class Main {
   }
 
   public static void multiThread(Map<Integer, Integer> map) {
-    TestMap testMap = new TestMap(map);
     List<Thread> threads = new ArrayList<>();
     Instant startTime = Instant.now();
     for (int i=0; i<100; i++) {
-      Thread t = new Thread(new Task(testMap));
+      Thread t = new Thread(new Task(map, i*10000));
       threads.add(t);
       t.start();
+    }
+    for (Thread t : threads) {
       try {
         t.join();
       } catch (InterruptedException e) {
