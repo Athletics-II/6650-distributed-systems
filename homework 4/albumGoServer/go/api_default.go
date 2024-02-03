@@ -10,15 +10,61 @@
 package swagger
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 )
 
 func GetAlbumByKey(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	albumID := vars["albumID"]
+
+	if albumID == "" {
+		http.Error(w, `{"msg": "Invalid request. Album ID is missing."}`, http.StatusBadRequest)
+		return
+	}
+
+	newAlbumInfo := AlbumInfo{
+		Artist: "Fall Out Boy",
+		Title:  "So Much (For) Stardust",
+		Year:   "2023",
+	}
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	json.NewEncoder(w).Encode(newAlbumInfo)
 	w.WriteHeader(http.StatusOK)
 }
 
 func NewAlbum(w http.ResponseWriter, r *http.Request) {
+	// Parse the multipart form with a maximum memory of 10 MB
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
+		http.Error(w, "Error parsing multipart form", http.StatusBadRequest)
+		return
+	}
+
+	// Retrieve the file from the posted form-data (key: "image")
+	file, fileHeader, err := r.FormFile("image")
+	if err != nil {
+		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
+		return
+	}
+	defer file.Close()
+
+	fileSize := fileHeader.Size
+
+	// Generate an album ID
+	albumID := uuid.NewString()
+
+	imageMetaData := ImageMetaData{
+		AlbumID:   albumID,
+		ImageSize: fmt.Sprintf("%d", fileSize),
+	}
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	json.NewEncoder(w).Encode(imageMetaData)
 	w.WriteHeader(http.StatusOK)
 }
