@@ -1,0 +1,36 @@
+Note: I forgot to take a screenshot but did record the actual run results of client part 1 in text
+
+Client part 1 results for Java servlet 
+
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 10, delay = 2000
+
+Walltime: 86 Throughput: 2325
+
+GET Request failed due to an exception. Retrying... Attempt 1
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 20, delay = 2000
+
+Walltime: 135 Throughput: 2962
+
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 30, delay = 2000
+
+Walltime: 179 Throughput: 3351
+
+Client part 1 results for Go server 
+
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 10, delay = 2000
+
+Walltime: 91 Throughput: 2197
+
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 20, delay = 2000
+
+Walltime: 138 Throughput: 2898
+
+All tasks completed.
+threadGroupSize = 10, numThreadGroups = 30, delay = 2000
+
+Walltime: 171 Throughput: 3508
