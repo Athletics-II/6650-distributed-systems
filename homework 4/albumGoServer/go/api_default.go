@@ -14,7 +14,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -57,7 +56,7 @@ func NewAlbum(w http.ResponseWriter, r *http.Request) {
 	fileSize := fileHeader.Size
 
 	// Generate an album ID
-	albumID := uuid.NewString()
+	albumID := "2"
 
 	imageMetaData := ImageMetaData{
 		AlbumID:   albumID,

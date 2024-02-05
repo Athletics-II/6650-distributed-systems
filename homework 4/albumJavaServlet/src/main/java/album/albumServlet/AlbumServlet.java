@@ -59,7 +59,7 @@ public class AlbumServlet extends HttpServlet {
             long imageSize = imagePart.getSize(); // Get the size of the image
 
             // Generate an album ID (this example just uses a UUID)
-            String albumID = java.util.UUID.randomUUID().toString();
+            String albumID = "2";
 
             // Construct the response JSON
             JsonObject jsonResponse = new JsonObject();
