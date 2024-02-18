@@ -89,7 +89,14 @@ public class SkierServlet extends HttpServlet {
     }
 
     private boolean updateDatabase(int resortID, int seasonYear, int dayNumber, int skierID, int time, int liftID) {
-        // TODO: Implement skiAPI database update logic here
-        return true; // Placeholder return value
+        LiftRideDao liftRideDao = new LiftRideDao();
+        LiftRide newLiftRide = new LiftRide(skierID, resortID, seasonYear, dayNumber, time, liftID);
+        try {
+            liftRideDao.createLiftRide(newLiftRide);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

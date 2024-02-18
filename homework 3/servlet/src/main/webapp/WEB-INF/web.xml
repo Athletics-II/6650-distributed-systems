@@ -12,4 +12,5 @@
         <servlet-name>SkierServlet</servlet-name>
         <url-pattern>/skiers/*</url-pattern>
     </servlet-mapping>
+
 </web-app>
