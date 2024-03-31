@@ -22,23 +22,23 @@ public class AlbumClientAPI {
     public static void main(String[] args) throws Exception {
         System.out.println("Client part 2 results for Java servlet \n");
         sendRequest(10, 10, 2000,
-                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet_war/albums");
+                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet-0.0.1-SNAPSHOT/albums");
         sendRequest(10, 20, 2000,
-                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet_war/albums");
-        sendRequest(10, 30, 2000,
-                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet_war/albums");
-        System.out.println("Client part 1 results for Go server \n");
-        sendRequest(10, 10, 2000,
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
-        sendRequest(10, 20, 2000,
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
+                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet-0.0.1-SNAPSHOT/albums");
         Map<Long, Long> throughputPerSecond = sendRequest(10, 30, 2000,
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
-                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
+                "http://44.232.105.145:8080/albumServlet_war/albums/1", "http://44.232.105.145:8080/albumServlet-0.0.1-SNAPSHOT/albums");
+//        System.out.println("Client part 2 results for Go server \n");
+//        sendRequest(10, 10, 2000,
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
+//        sendRequest(10, 20, 2000,
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
+//        Map<Long, Long> throughputPerSecond = sendRequest(10, 30, 2000,
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums/1",
+//                "http://54.191.166.240:8080/IGORTON/AlbumStore/1.0.0/albums");
 
-        try (PrintWriter writer = new PrintWriter(new FileWriter("C:\\Users\\凌思漪\\Desktop\\throughput_data.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("C:\\Users\\27173\\Documents\\throughput_data.csv"))) {
             writer.println("second,throughput"); // Header
             throughputPerSecond.forEach((second, count) -> writer.printf("%d,%d\n", second, count));
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class AlbumClientAPI {
         Instant endTime = Instant.now();
         Duration duration = Duration.between(startTime, endTime);
         System.out.println("threadGroupSize = " + threadGroupSize + ", numThreadGroups = " + numThreadGroups + ", delay = " + delay + "\n");
-        System.out.println("Walltime: " + duration.toSeconds() + " Throughput: " + threadGroupSize*numThreadGroups*2000/duration.toSeconds() + "\n");
+        System.out.println("Walltime: " + duration.toSeconds() + " Throughput: " + threadGroupSize*numThreadGroups*200/duration.toSeconds() + "\n");
 
         return startsPerSecond;
     }
@@ -92,7 +92,7 @@ public class AlbumClientAPI {
         MultiPartBodyPublisher publisher = new MultiPartBodyPublisher();
 
         // Path to the image file
-        Path imagePath = Paths.get("C:\\Users\\凌思漪\\Desktop\\Example.jpg");
+        Path imagePath = Paths.get("C:\\Users\\27173\\Documents\\Example.jpg");
 
         // JSON representation of the AlbumInfo object
         String jsonProfile = "{\"artist\":\"Artist Name\",\"title\":\"Album Title\",\"year\":\"2023\"}";
@@ -118,7 +118,7 @@ public class AlbumClientAPI {
             for (int i=0; i<100; i++) {
                 try {
                     MultiPartBodyPublisher.sendRequestWithRetries(httpClient, postRequest);
-                    SyncGetRequest.sendRequestWithRetries(httpClient, getRequest);
+                    AsyncPostRequest.sendReviews(httpClient);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

@@ -57,11 +57,11 @@ public class ConcurrentClientCustomExecutor {
         System.out.println("All tasks completed.\n");
 
         // Calculate statistics for POST requests
-        System.out.println("POST Request Statistics:");
+        System.out.println("POST Album Request Statistics:");
         calculateAndPrintStatistics(postLatencies);
 
         // Calculate statistics for GET requests
-        System.out.println("GET Request Statistics:");
+        System.out.println("POST Review Request Statistics:");
         calculateAndPrintStatistics(getLatencies);
 
         Map<Long, Long> startsPerSecond = startTimes.stream().collect(Collectors.groupingByConcurrent(e -> e, Collectors.counting()));
@@ -110,7 +110,7 @@ public class ConcurrentClientCustomExecutor {
 
         @Override
         public void run() {
-            for (int i = 0; i < 1000; i++) { // Each thread sends 1000 GET/POST request pairs
+            for (int i = 0; i < 100; i++) { // Each thread sends 100 GET/POST request pairs
                 try {
                     Instant startPost = Instant.now();
                     startTimes.add(startPost.getEpochSecond());
@@ -122,7 +122,7 @@ public class ConcurrentClientCustomExecutor {
 
                     Instant startGet = Instant.now();
                     startTimes.add(startGet.getEpochSecond());
-                    int getStatus = SyncGetRequest.sendRequestWithRetries(this.client, this.getRequest);
+                    int getStatus = AsyncPostRequest.sendReviews(this.client);;
                     if (getStatus == 200 || getStatus == 201) {
                         Instant endGet = Instant.now();
                         getLatencies.add(Duration.between(startGet, endGet).toMillis());
