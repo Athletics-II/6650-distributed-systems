@@ -1,18 +1,15 @@
-package org.milestone3.albumServlet.consumer;
+package org.milestone3.albumServlet.common;
 
 import org.apache.commons.dbcp2.*;
 public class DataSource {
     private static BasicDataSource dataSource;
-
-    // NEVER store sensitive information below in plain text!
     private static final String HOST_NAME = System.getProperty("MySQL_IP_ADDRESS");
     private static final String PORT = System.getProperty("MySQL_PORT");
-    private static final String DATABASE = "LiftRides";
+    private static final String DATABASE = "Album";
     private static final String USERNAME = System.getProperty("DB_USERNAME");
     private static final String PASSWORD = System.getProperty("DB_PASSWORD");
 
     static {
-        // https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-jdbc-url-format.html
         dataSource = new BasicDataSource();
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

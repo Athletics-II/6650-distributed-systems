@@ -1,22 +1,22 @@
 package org.milestone3.albumServlet;
 
 public class AlbumDTO {
-    private String name;
+    private String title;
     private String artist;
     private String year;
 
-    public AlbumDTO(String name, String artist, String year) {
-        this.name = name;
+    public AlbumDTO(String title, String artist, String year) {
+        this.title = title;
         this.artist = artist;
         this.year = year;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getArtist() {
